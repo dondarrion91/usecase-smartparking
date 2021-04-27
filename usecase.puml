@@ -1,0 +1,90 @@
+@startuml
+left to right direction
+
+' actores
+actor "Usuario" as fc
+actor "Admin" as adm
+
+' Entorno de interacciones
+rectangle SmartParking {
+    ' Casos de usos para la seleccion de un lugar
+    usecase "Registrarse" as UC1
+    usecase "Login" as UC2  
+    usecase "Seleccionar lugar" as UC3  
+    usecase "Seleccionar cantidad de horas" as UC4
+    usecase "Sin reserva" as UC5  
+    usecase "Con reserva" as UC6  
+    usecase "Confirmar Registro" as UC7
+    usecase "Seleccionar fecha de reserva" as UC8
+    usecase "Recuperar/cambiar contraseña" as UC21
+
+    ' Casos de uso de usuario para consultar lugar seleccionado
+    usecase "Consultar estado" as UC9
+    usecase "Disponible" as UC10
+    usecase "Ocupado" as UC11
+    usecase "Terminando" as UC12
+    usecase "Reservado" as UC13
+    usecase "Penalizado" as UC14    
+    usecase "Consultar horario de salida" as UC15
+    usecase "Consultar tarifa" as UC16
+
+    ' Casos de uso del usuario para los pagos
+    usecase "Realizar pago" as UC17
+    usecase "Metodos de pagos" as UC18
+    usecase "Efectivo" as UC19
+    usecase "Tarjeta" as UC20
+
+    ' Casos de uso de admin 
+    usecase "Modificar estado" as UC22
+    usecase "Modificar/Agregar nuevos lugares" as UC23
+    usecase "Modificar tarifas" as UC24
+    usecase "Modificar datos de usuarios" as UC25
+
+}
+
+
+' Interacciones entre casos de usos
+
+' Interaccion de usuario para seleccionar un lugar
+fc --> UC1
+fc --> UC2
+(UC2) .> (UC3) : include
+UC3 <|-- UC5
+UC3 <|-- UC6
+(UC5) .> (UC4) : extends
+UC1 --> UC7
+(UC7) .> (UC3) : include
+(UC6) .> (UC8) : extends
+fc --> UC21
+(UC21) .> (UC3) : include
+
+' Interaccion de usuario para consultas de turnos
+fc --> UC9
+UC9 <|-- UC10
+UC9 <|-- UC11
+UC9 <|-- UC12
+UC9 <|-- UC13
+UC9 <|-- UC14
+fc --> UC15
+fc --> UC16
+
+' Interaccion de usuario para el pago de turnos
+(UC16) .> (UC17) : extends
+UC17 <|-- UC18
+UC18 <|-- UC19
+UC18 <|-- UC20
+
+' Interaccion de admin
+adm --> UC22
+adm --> UC23
+adm --> UC24
+adm --> UC25
+UC22 <|-- UC10
+UC22 <|-- UC11
+UC22 <|-- UC12
+UC22 <|-- UC13
+UC22 <|-- UC14
+
+@enduml
+
+
